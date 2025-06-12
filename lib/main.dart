@@ -1,24 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:chatbot/model/message_model.dart';
 import 'package:chatbot/screen/start_screen.dart';
-import 'package:chatbot/screen/chatbot_screen.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:chatbot/provider/schedule_provider.dart';
 import 'package:chatbot/repository/schedule_repository.dart';
 import 'package:provider/provider.dart';
 
+//git remote add origin https://github.com/본인 닉네임/프로젝트이름.git
+// 위 명령어로 github 레포지드 연결
+//
+
+//cd C:\Users\ASUS\Downloads\calendar_scheduler_server
+//npm run start:dev
+//터미널에 위 두줄 입력으로 API서버 열기
+//서버파일을 프로젝트파일 안에 두면 안됨 ㅇㅋ? ㅇㅋ
+
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
-  final dir = await getApplicationDocumentsDirectory();
-  final isar = await Isar.open(
-    [MessageModelSchema],
-    directory: dir.path,
-  );
-  GetIt.I.registerSingleton<Isar>(isar);
-  WidgetsFlutterBinding.ensureInitialized();
+  await getApplicationDocumentsDirectory();
   await initializeDateFormatting();
 
   final repository = ScheduleRepository();
@@ -28,6 +27,7 @@ void main() async{
     ChangeNotifierProvider(
       create: (_) => scheduleProvider,
       child: MaterialApp(
+        //처음 로고 시작스크린 열기
         home: StartScreen(),
       ),
     ),

@@ -1,72 +1,28 @@
 import 'package:chatbot/const/colors.dart';
 import 'package:flutter/material.dart';
 
-class _Time extends StatelessWidget{
-  final int startTime;
-  final int endTime;
+//저장된 명언글 출력
 
-  const _Time({
-    required this.startTime,
-    required this.endTime,
-    Key? key,
-  }) : super(key:key);
-
-  @override
-  Widget build(BuildContext context){
-    final textStyle = TextStyle(
-      fontWeight: FontWeight.w600,
-      color:  PRIMARY_COLOR,
-      fontSize: 16.0,
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          '${startTime.toString().padLeft(2,'0')}:00',
-          style: textStyle,
-        ),
-        Text(
-          '${endTime.toString().padLeft(2,'0')}:00',
-          style: textStyle.copyWith(
-            fontSize: 10.0,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _Content extends StatelessWidget{
-  final String content;
-
-  const _Content({
-    required this.content,
-    Key? key,
-  }) : super(key:key);
-  @override
-  Widget build(BuildContext context){
-    return Expanded(
-      child: Text(
-        content,
-      ),
-    );
-  }
-}
-
-class ScheduleCard extends StatelessWidget{
-  final int startTime;
-  final int endTime;
+class ScheduleCard extends StatelessWidget {
   final String content;
 
   const ScheduleCard({
-    required this.startTime,
-    required this.endTime,
     required this.content,
     Key? key,
-  }): super(key: key);
+  }) : super(key: key);
+
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
+    //bottom_sheet에서 그대로 가져온거
+    final RegExp quoteRegExp = RegExp(r'명언\s*[：:\s]?\s*(.+?)\s*(?=설명|$)', dotAll: true);
+    final RegExp explanationRegExp = RegExp(r'설명\s*[：:\s]?\s*(.+)', dotAll: true);
+
+    final quoteMatch = quoteRegExp.firstMatch(content);
+    final explanationMatch = explanationRegExp.firstMatch(content);
+
+    final quote = quoteMatch?.group(1)?.trim() ?? '명언 없음';
+    final explanation = explanationMatch?.group(1)?.trim() ?? '설명 없음';
+
     return Container(
       decoration: BoxDecoration(
         border: Border.all(
@@ -75,24 +31,39 @@ class ScheduleCard extends StatelessWidget{
         ),
         borderRadius: BorderRadius.circular(8.0),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: IntrinsicHeight(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              _Time(
-                startTime: startTime,
-                endTime: endTime,
-              ),
-              SizedBox(width: 16.0),
-              _Content(
-                content: content,
-              ),
-              SizedBox(width: 16.0),
-            ],
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        //명언과 설명글 출력
+        children: [
+          Text(
+            '명언',
+            style: TextStyle(
+              color: PRIMARY_COLOR,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+            ),
           ),
-        ),
+          SizedBox(height: 4),
+          Text(
+            quote,
+            style: TextStyle(fontSize: 16.0),
+          ),
+          SizedBox(height: 12),
+          Text(
+            '설명',
+            style: TextStyle(
+              color: PRIMARY_COLOR,
+              fontWeight: FontWeight.bold,
+              fontSize: 14.0,
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            explanation,
+            style: TextStyle(fontSize: 14.0),
+          ),
+        ],
       ),
     );
   }

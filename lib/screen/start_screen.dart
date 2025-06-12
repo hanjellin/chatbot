@@ -11,9 +11,9 @@ class StartScreen extends StatefulWidget {
 
 class _StartScreenState extends State<StartScreen> {
   @override
+  //자동 실행 스테이트
   void initState() {
     super.initState();
-
     // 3초 후 홈스크린으로 자동 이동
     Timer(const Duration(seconds: 3), () {
       Navigator.pushReplacement(
@@ -44,11 +44,11 @@ class _StartScreenState extends State<StartScreen> {
               // 로고 이미지
               Image.asset(
                 'asset/img/logo.png',
-                width: 150,
-                height: 150,
+                width: 200,
+                height: 200,
                 fit: BoxFit.contain,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 15),
               // 앱 이름 텍스트
               Text(
                 '오늘의 한 문장',

@@ -13,6 +13,7 @@ class ScheduleModel{
     required this.endTime
   });
 
+  //모델 생성자
   ScheduleModel.fromJson({
     required Map<String, dynamic> json,
   })  : id = json['id'],
@@ -21,6 +22,7 @@ class ScheduleModel{
   startTime = json['startTime'],
   endTime = json['endTime'];
 
+  //모델을 다시 json으로 변환
   Map<String, dynamic> toJson(){
     return{
       'id' : id,
@@ -32,6 +34,7 @@ class ScheduleModel{
     };
   }
 
+  //현재 모델을 특정 속성만 변환해서 새로 생성
   ScheduleModel copyWith({
     String? id,
     String? content,

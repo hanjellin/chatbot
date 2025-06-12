@@ -1,12 +1,10 @@
 import 'package:chatbot/model/schedule_model.dart';
 import 'package:chatbot/repository/schedule_repository.dart';
-
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
 //1. provider 정의 그리고 CRUD
-//2. 정의된 provider 인스턴스화
+//2. provider 인스턴스화
 //3. provider access
 
 class ScheduleProvider extends ChangeNotifier{
@@ -34,7 +32,10 @@ class ScheduleProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  void createSchedules({
+  //schedule_botton_sheet에서 이거 쓸때 async 때문에 이거도 바꿔야함
+  //나머진 상관없고?
+  //ㅇㅇ
+  Future <void>  createSchedules({
     required ScheduleModel schedule,
   }) async {
     final targetDate = schedule.date;
@@ -45,7 +46,7 @@ class ScheduleProvider extends ChangeNotifier{
         (value) => [
           ...value,
           schedule.copyWith(
-            id: saverSchedule,
+            id: saverSchedule, //저장받은 후 ID갱신
           ),
         ]..sort(
             (a,b) =>a.startTime.compareTo(
@@ -54,7 +55,7 @@ class ScheduleProvider extends ChangeNotifier{
         ),
       ifAbsent: () => [schedule],
     );
-    notifyListeners();
+    notifyListeners(); //상태반영
   }
 
   void deleteSchedules({
